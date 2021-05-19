@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Markdown to HTML</title>
+    <link
+            rel="stylesheet"
+            href="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/css/mdui.min.css"
+            integrity="sha384-cLRrMq39HOZdvE0j6yBojO4+1PrHfB7a9l5qLcmRm/fiWXYY+CndJPmyu5FV/9Tw"
+            crossorigin="anonymous"
+    />
+    <script>
+      let html;
+
+      function getHtmlText(fd) {
+        return  fetch(`https://api.chromium.link/markdown-to-html`, {
+          method: "POST",
+          body: fd
+        }).then(res => res.json());
+      }
+
+      function submit() {
+        let input = document.getElementById("markdown-text").value;
+        let fd = new FormData();
+        fd.append("markdown", input);
+        getHtmlText(fd).then(res => {
+          document.getElementById("result").innerHTML = res.msg;
+          html = res.msg;
+        })
+      }
+
+      function updateClipboard(newClip) {
+        navigator.clipboard.writeText(newClip).then(function() {
+          mdui.snackbar("Copied");
+        }, function() {
+          mdui.snackbar("Failed! Please check permission of clipboard.");
+        });
+      }
+
+      function copy() {
+        updateClipboard(html);
+      }
+    </script>
+</head>
+<body>
+<div class="mdui-appbar mdui-shadow-1">
+    <div class="mdui-toolbar mdui-color-theme">
+        <a href="https://tools.chromium.link/markdown.html" class="mdui-typo-headline">Markdown to HTML</a>
+        <div class="mdui-toolbar-spacer"></div>
+        <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">share</i></a>
+    </div>
+</div>
+<div class="mdui-textfield mdui-textfield-floating-label">
+    <div class="mdui-textfield mdui-textfield-floating-label">
+        <label class="mdui-textfield-label">Markdown Text</label>
+        <textarea id="markdown-text" class="mdui-textfield-input"></textarea>
+    </div>
+    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-shadow-1" onclick="submit()">Convert</button>
+</div>
+</div>
+<div>
+    <div id="result">Preview</div>
+    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-shadow-1" onclick="copy()">Copy</button>
+</div>
+</body>
+<script
+        src="https://cdn.jsdelivr.net/npm/mdui@1.0.1/dist/js/mdui.min.js"
+        integrity="sha384-gCMZcshYKOGRX9r6wbDrvF+TcCCswSHFucUzUPwka+Gr+uHgjlYvkABr95TCOz3A"
+        crossorigin="anonymous"
+></script>
+</html>

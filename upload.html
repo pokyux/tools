@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Upload to oss</title>
+    <script>
+      let base64;
+
+      function selectFile(e) {
+        e.preventDefault();
+        let files;
+        if (e.dataTransfer) {
+          files = e.dataTransfer.files;
+        } else if (e.target) {
+          files = e.target.files;
+        }
+        if (files.length < 1) {
+          alert("please select a file!")
+        }
+        const reader = new FileReader();
+        reader.onload = () => {
+          base64 = reader.result;
+        };
+        reader.readAsDataURL(files[0]);
+      }
+
+      function upload() {
+        let id = document.getElementById("id").value;
+        let secret = document.getElementById("secret").value;
+        let path = document.getElementById("path").value;
+        let ext = "none";
+        let fd = new FormData();
+        fd.append("id", id);
+        fd.append("command", "put");
+        fd.append("secret", secret);
+        fd.append("path", path);
+        fd.append("extension", ext);
+        fd.append("data", base64);
+        fetch(`https://my.files.chromium.link`, {
+          method: "POST",
+          body: fd
+        })
+      }
+    </script>
+</head>
+<body>
+<label>
+    <input id="id" type="text">
+</label>
+<label>
+    <input id="secret" type="password">
+</label>
+<label>
+    <input id="path" type="text">
+</label>
+<input type="file" onchange="selectFile(event)">
+<button onclick="upload()">submit</button>
+</body>
+</html>

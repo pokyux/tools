@@ -13,7 +13,7 @@
       let html;
 
       function getHtmlText(fd) {
-        return  fetch(`https://api.chromium.link/markdown-to-html`, {
+        return fetch(`https://api.chromium.link/markdown-to-html`, {
           method: "POST",
           body: fd
         }).then(res => res.json());
@@ -30,9 +30,9 @@
       }
 
       function updateClipboard(newClip) {
-        navigator.clipboard.writeText(newClip).then(function() {
+        navigator.clipboard.writeText(newClip).then(function () {
           mdui.snackbar("Copied");
-        }, function() {
+        }, function () {
           mdui.snackbar("Failed! Please check permission of clipboard.");
         });
       }
@@ -50,17 +50,18 @@
         <a href="javascript:;" class="mdui-btn mdui-btn-icon"><i class="mdui-icon material-icons">share</i></a>
     </div>
 </div>
-<div class="mdui-textfield mdui-textfield-floating-label">
+<div style="padding: 20px">
     <div class="mdui-textfield mdui-textfield-floating-label">
-        <label class="mdui-textfield-label">Markdown Text</label>
-        <textarea id="markdown-text" class="mdui-textfield-input"></textarea>
+        <div class="mdui-textfield mdui-textfield-floating-label">
+            <label class="mdui-textfield-label">Markdown Text</label>
+            <textarea id="markdown-text" class="mdui-textfield-input"></textarea>
+        </div>
+        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-shadow-1" onclick="submit()">Convert</button>
     </div>
-    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-shadow-1" onclick="submit()">Convert</button>
-</div>
-</div>
-<div>
-    <div id="result">Preview</div>
-    <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-shadow-1" onclick="copy()">Copy</button>
+    <div>
+        <div id="result">Preview</div>
+        <button class="mdui-btn mdui-btn-raised mdui-ripple mdui-shadow-1" onclick="copy()">Copy</button>
+    </div>
 </div>
 </body>
 <script

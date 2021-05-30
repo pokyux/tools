@@ -39,6 +39,12 @@
         fetch(`https://my.files.chromium.link`, {
           method: "POST",
           body: fd
+        }).then(res => res.json()).then(res => {
+          if (res.code === 0) {
+            alert("Uploaded");
+          } else {
+            alert(res.msg);
+          }
         })
       }
     </script>

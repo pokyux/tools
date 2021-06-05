@@ -36,7 +36,7 @@
         fd.append("path", path);
         fd.append("extension", ext);
         fd.append("data", base64);
-        fetch(`https://my.files.chromium.link`, {
+        fetch(`https://my.files.kininaru.dev`, {
           method: "POST",
           body: fd
         }).then(res => res.json()).then(res => {

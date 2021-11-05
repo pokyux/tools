@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kininaru短链接</title>
+    <link rel="icon" href="https://about.7nm.co/favicon.ico">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script>
+        function upload() {
+            let code = localStorage.getItem("code");
+            let link = document.getElementById('link').value;
+            fetch("https://api.7nm.co/add", {
+                method: "POST",
+                headers: {'Authorization': code},
+                body: JSON.stringify({link: link})
+            }).then(res => {
+                if (res.status !== 200) alert(res.status);
+                else res.json().then(res => {
+                    if (res.code !== 0) alert(res.msg);
+                    else alert("7nm.co" + res.msg);
+                });
+            });
+        }
+    </script>
+</head>
+<body>
+<label for="link">链接</label><input id="link">
+<button onclick="upload()">生成短链接</button>
+</body>
+</html>
